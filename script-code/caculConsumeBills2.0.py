@@ -1,26 +1,32 @@
-'''
+"""
 DATE:2019-04-04
 Author:Shining
 Version:1.0
 platform:py36
 Theme:caculConsumeBills
-
 计算每个人的花费，和需要付出的钱
 输入格式为元组（日期，金额，款项，付款人，同消费1，同消费2）
 输出每个人均分金额，以及谁付给谁多少
-'''
-import re
+"""
 
-#读取TXT数据，并存入元组和列表
+
+import re, os
+
+
+# 读取TXT数据，并存入元组和列表
 def readConsumeBills(consumeBill):
-
-    
-    
-    consumptionBill = []
-    datePat = r'\d+-\d+-\d+$'
-    moneyPat = r'(\d+)+[\（ | \(]'
+    """
+    通过正则读取账单数据
+    :param consumeBill:
+    :return:
+    """
+    consumptionBill = []                        # 定义消费列表账单
+    datePat = r'\d+-\d+-\d+$'                   # 匹配时间正则表达式
+    moneyPat = r'(\d+)+[\（ | \(]'              # 匹配金额正则表达式
     billPatA = r'(\(+[^()\f\n\r\t\v]+\)+)+'
-    billPatB = r'(\（+[^（）\f\n\r\t\v]+\）)+'
+    billPatB = r'(\（+[^（）\f\n\r\t\v]+\）)+'  # 匹配(消费项,消费人1,消费人2,消费人3)
+
+    # 打开手动记录的账单数据,存入列表
     with open(consumeBill,'r') as bills:
         for bill in bills:
             bill = bill.strip()
@@ -48,8 +54,7 @@ def readConsumeBills(consumeBill):
     return consumptionBill
 
 
-
-                                   
+# 将日期,金额,消费人转换为一个元组(日期,金额,消费人1,消费人2,消费人3)
 def transformToTup(date,money,bill):
     '''
     转换日期，金额，消费项，付款人，共同消费人为列表，元素为元组
@@ -67,8 +72,13 @@ def transformToTup(date,money,bill):
     return consumeList
 
 
+# 将账单分为三人账单,两人账单
 def classfy(billList):
-
+    """
+    分类账单
+    :param billList:
+    :return:
+    """
     xxfBill = []
     xxBill = []
     xufBill = []
@@ -92,8 +102,12 @@ def classfy(billList):
     return result
             
 
+# 计算三人共同总金额和每人总金额
 def caculateBill(classfyList):
-    
+    """
+    :param classfyList:
+    :return: payForList
+    """
     payForList = []
     for elemlist in classfyList:
         entertainmentFee = 0
@@ -105,6 +119,8 @@ def caculateBill(classfyList):
         payForList.append((sumOfThree,sumOfXu,sumOfXie,sumOfFeng))
     return payForList
 
+
+# 根据分类后的账单计算各项指标
 def payForOther(billList):
     
     xieToFeng = 0
@@ -118,7 +134,7 @@ def payForOther(billList):
     print(strFormat.format(payforList[0]))
     avrofthree = payforList[0][0]/3
     print('Bruce Shining and Echo 的三人账单平均花费金额为￥：{:.2f}'.format(avrofthree))
-    #print('\n')
+    # print('\n')
     print('='*len(strFormat)*2)
     print('1.Bruce Shining 两人账单(花费总金额，Bruce付款金额，Shining付款金额，Echo付款金额)￥:{}'.format(payforList[1]))
     print('2.Bruce Echo两人账单(花费总金额，Bruce付款金额，Shining付款金额，Echo付款金额)￥:{}'.format(payforList[2]))
@@ -306,7 +322,9 @@ def payforPrint(payforDict):
 
 if __name__ == '__main__':
 
-    billList = readConsumeBills('C:\\Users\\PC\\Desktop\\travelConsumeBills.txt')
+    billPath = r'../data/travelConsumeBills.txt'
+    # billList = readConsumeBills('C:\\Users\\PC\\Desktop\\travelConsumeBills.txt')
+    billList = readConsumeBills(billPath)
     consumeCount = len(billList)
     consumeXu = len([bill for bill in billList if bill[3] == '徐'])
     consumeXie = len([bill for bill in billList if bill[3] == '谢'])
