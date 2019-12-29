@@ -206,11 +206,7 @@ def payForOther(billList):
     return {'谢to冯':xieGiveFeng,'谢to徐':xieGiveXu,'徐to谢':xuGiveXie,'徐to冯':xuGiveFeng,'冯to谢':fengGiveXie,'冯to徐':fengGiveXu}
     
             
-            
-            
-        
-    
-
+# 消费统计
 def countBill():
     eatFee = 0
     hotelFee = 0
@@ -231,6 +227,7 @@ def calcSingleMoney(billList):
         elif bill[3] == '冯':
             sumofFeng += bill[1]
     return sumofAll,sumofXu,sumofXie,sumofFeng
+
 
 def calcTwoMoney(billList,billType):
     avrageTwo = billList[0] /  2
@@ -272,8 +269,11 @@ def calcTwoMoney(billList,billType):
             else:
                 pass
     return {'谢to徐':xieToXu,'谢to冯':xieToFeng,'徐to谢':xuToXie,'徐to冯':xuToFeng,'冯to徐':fengToXu,'冯to谢':fengToXie}
+
+
 def calcThreeMoney(billList):
     pass
+
 
 def balanceBill(totalAccount,payforDict):
     '''
@@ -313,12 +313,7 @@ def payforPrint(payforDict):
             print('Echo 需要付款人民币￥:{:.2f}元给 Bruce。'.format(val))
         elif key == '冯to谢' and val > 0:
             print('Echo 需要付款人民币￥:{:.2f}元给 Shining。'.format(val))
-    
-        
-    
-        
-        
-        
+
 
 if __name__ == '__main__':
 
@@ -330,7 +325,8 @@ if __name__ == '__main__':
     consumeXie = len([bill for bill in billList if bill[3] == '谢'])
     consumeFeng = len([bill for bill in billList if bill[3] == '冯'])
     totalAccount = calcSingleMoney(billList)
-    print(totalAccount)
+    print('=' * 128)
+    print("(消费总额,Bruce支付总额,Shining支付总额,Echo支付总额):{}".format(totalAccount))
     sA = '1.本次湖南之行总计消费【{}】笔，共计金额人民币￥：{:.2f}元。'
     sB = '2.其中Bruce支付【{}】笔，共计金额人民币￥：{:.2f}元。'
     sC = '3.其中Shining支付【{}】笔，共计金额人民币￥：{:.2f}元。'
@@ -349,7 +345,7 @@ if __name__ == '__main__':
     print('  1: Bruce 花费人民币￥：【{:.2f}】元'.format(banlanceBill[1]))
     print('  2: Shining 花费人民币￥：【{:.2f}】元'.format(banlanceBill[2]))
     print('  3: Echo 花费人民币￥：【{:.2f}】元'.format(banlanceBill[3]))
-    
+    print('=' * 128)
     
     
     #print(billList)
