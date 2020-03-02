@@ -1,0 +1,59 @@
+#!/usr/bin/env python37
+# _*_ coding:utf-8 _*_
+"""
+Author : 'Shining'
+Date:2020-02-28
+Describe:输入两行字符串,第一行包含空白 tab 等,第二行为不包含空白的字符串
+输出第二行字符串在第一行中出现了几次
+"""
+
+import sys
+
+
+def findSubStrCount(srcString,subString):
+    """
+
+    :param srcString: 包含空白的全量字符串
+    :param subString: 子字符串
+    :return: 子字符串在全量字符串中出现的次数
+    """
+    count = 0
+    srcStrLength = len(srcString)
+    subStrLength = len(subString)
+    if subStrLength > srcStrLength:
+        return count
+    else:
+        for i in range(srcStrLength-subStrLength+1):
+            if srcString[i:i+subStrLength] == subString:
+                count +=1
+                # continue
+        return count
+
+
+def delStrSpace(srcString):
+    """
+
+    :param srcString: 包含空白的字符串
+    :return: 不包含空白的字符串
+    """
+
+
+    tempStr = srcString.split(' ')
+    nospaceStr = ''.join(tempStr)
+    print(nospaceStr)
+    return nospaceStr
+
+if __name__ == "__main__":
+
+    while True:
+        line1 = sys.stdin.readline().strip()
+        if line1 == '':
+            break
+        line2 = sys.stdin.readline().strip()
+        src,sub = line1,line2
+        nospaceSrc = delStrSpace(src)
+        print(nospaceSrc)
+        nospaceSub = delStrSpace(sub)
+        count = findSubStrCount(nospaceSrc,nospaceSub)
+        print(count)
+

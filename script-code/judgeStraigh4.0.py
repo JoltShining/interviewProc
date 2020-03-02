@@ -83,6 +83,8 @@ def judgeStraigh(objlist):
            else:
                flag = 0
     return flag
+
+
 #随机抽取五张扑克牌
 def extractPoker(count):
     originpoker = set()
